@@ -1,20 +1,22 @@
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import Avatar from '@/components/ui/Avatar';
-import Button from '@/components/ui/Button';
-import { useAuth } from '@/hooks/useAuth';
-import { ROUTES } from '@/constants/routes';
-import { clsx } from 'clsx';
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import Avatar from '@/components/ui/Avatar'
+import Button from '@/components/ui/Button'
+import { useAuth } from '@/hooks/useAuth'
+import { ROUTES } from '@/constants/routes'
+import { clsx } from 'clsx'
 
 const NAV_LINKS = [
   { label: 'Home', href: ROUTES.HOME },
   { label: 'Teachers', href: ROUTES.TEACHERS },
   { label: 'Dashboard', href: ROUTES.DASHBOARD },
-];
+]
 
 export const Navbar = () => {
-  const pathname = usePathname();
-  const { user, isAuthenticated, logout } = useAuth();
+  const pathname = usePathname()
+  const { user, isAuthenticated, logout } = useAuth()
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
@@ -70,7 +72,7 @@ export const Navbar = () => {
         </div>
       </nav>
     </header>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

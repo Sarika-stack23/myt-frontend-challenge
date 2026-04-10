@@ -18,7 +18,7 @@ export default function BookingPage() {
   const { user, isAuthenticated } = useAuth();
   const {
     selectedSession,
-    currentBooking,
+  
     reset,
   } = useBookingStore();
   const { mutate: createBooking, isPending, isSuccess } = useCreateBooking();

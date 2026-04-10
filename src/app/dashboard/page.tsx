@@ -9,7 +9,7 @@ import Badge from '@/components/ui/Badge';
 import Avatar from '@/components/ui/Avatar';
 import Spinner from '@/components/ui/Spinner';
 import Button from '@/components/ui/Button';
-import { formatDate, formatDateRange } from '@/utils/formatDate';
+import { formatDate } from '@/utils/formatDate'
 import { formatPrice } from '@/utils/formatPrice';
 import { useCancelBooking } from '@/hooks/useBooking';
 import { ROUTES } from '@/constants/routes';

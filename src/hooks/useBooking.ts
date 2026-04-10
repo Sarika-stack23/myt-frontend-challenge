@@ -25,7 +25,7 @@ export const useCancelBooking = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (bookingId: string) => bookingService.cancel(bookingId),
-    onSuccess: (_, bookingId) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.TEACHERS });
     },
   });

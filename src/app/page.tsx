@@ -40,7 +40,7 @@ export default function HomePage() {
       {/* Hero */}
       <section
         aria-labelledby="hero-heading"
-        className="text-center py-20"
+        className="text-center py-20 bg-gray-50"
       >
         <h1
           id="hero-heading"

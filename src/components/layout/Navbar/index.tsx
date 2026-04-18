@@ -16,7 +16,17 @@ const NAV_LINKS = [
 
 export const Navbar = () => {
   const pathname = usePathname()
-  const { user, isAuthenticated, logout } = useAuth()
+  const { user, isAuthenticated, logout, setUser } = useAuth()
+
+  const handleSignIn = () => {
+    setUser({
+      id: '1',
+      name: 'Sarika Jivrajika',
+      email: 'sarika@test.com',
+      timezone: 'Asia/Kolkata',
+      createdAt: new Date().toISOString(),
+    })
+  }
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
@@ -65,7 +75,7 @@ export const Navbar = () => {
               </Button>
             </>
           ) : (
-            <Button size="sm" onClick={() => {}}>
+            <Button size="sm" onClick={handleSignIn}>
               Sign In
             </Button>
           )}

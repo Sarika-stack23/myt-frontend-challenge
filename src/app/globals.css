@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html,
-body {
-  background-color: #f9fafb !important;
-  color: #111827 !important;
-  font-family: Inter, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  color-scheme: light !important;
+html {
+  color-scheme: light;
 }
 
-main {
+body {
   background-color: #f9fafb;
+  color: #111827;
+  font-family: Inter, sans-serif;
+  -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }

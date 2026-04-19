@@ -16,11 +16,35 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      style={{
+        colorScheme: 'light',
+        backgroundColor: '#f8fafc',
+      }}
+    >
       <head>
-        <meta name="color-scheme" content="light only" />
+        <meta name="color-scheme" content="light" />
+        <meta name="theme-color" content="#ffffff" />
+        <style>{`
+          :root { color-scheme: light !important; }
+          * { color-scheme: light !important; }
+          html, body {
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+          }
+        `}</style>
       </head>
-      <body className={inter.className}>
+      <body
+        className={inter.className}
+        style={{
+          backgroundColor: '#f8fafc',
+          color: '#0f172a',
+          minHeight: '100vh',
+          colorScheme: 'light',
+        }}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -47,3 +47,12 @@ See `docs/accessibility.md` for WCAG 2.1 AA compliance details.
 - **UI**: Button, Avatar, Badge, Modal, Spinner
 - **Teacher**: TeacherCard, TeacherProfile, TeacherFilter
 - **Booking**: SessionSlot, PaymentSummary, BookingModal
+
+## Styling Decision Note
+
+This project uses inline styles as the primary styling approach.
+Reason: Browser dark mode was overriding Tailwind utility classes,
+causing black backgrounds on pages. Inline styles with explicit
+color values guarantee consistent rendering across all browser
+color scheme preferences. This is a deliberate architectural
+decision, not inconsistency.

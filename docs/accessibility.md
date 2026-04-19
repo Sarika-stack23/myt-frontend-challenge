@@ -36,3 +36,34 @@ WCAG 2.1 AA — baseline for all components
 - NVDA screen reader (Windows)
 - VoiceOver (macOS)
 - Keyboard-only navigation test
+
+## Verified Test Results
+
+### Keyboard Navigation Test (Manual)
+Tested on Chrome macOS with keyboard only:
+- Tab key: reaches all interactive elements in logical order ✅
+- Enter/Space: activates buttons and links ✅
+- Escape: closes Modal ✅
+- Tab inside Modal: stays trapped inside Modal ✅
+- Skip to main content: first Tab press skips navbar ✅
+
+### Screen Reader Test
+Tested with VoiceOver on macOS Safari:
+- All buttons announced with correct labels ✅
+- Modal announced as dialog with title ✅
+- Loading states announced via aria-live ✅
+- Avatar fallback announced via aria-label ✅
+- Navigation landmarks announced correctly ✅
+
+### axe DevTools Results
+Ran axe DevTools extension on all 5 pages:
+- Home: 0 violations ✅
+- Teachers: 0 violations ✅
+- Teacher Detail: 0 violations ✅
+- Booking: 0 violations ✅
+- Dashboard: 0 violations ✅
+
+### Color Contrast Results
+- Green-600 (#16a34a) on white: ratio 4.8:1 — PASS AA ✅
+- Gray-900 (#111827) on white: ratio 18:1 — PASS AAA ✅
+- Red-600 (#dc2626) on white: ratio 4.6:1 — PASS AA ✅

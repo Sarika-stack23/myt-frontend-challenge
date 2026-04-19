@@ -16,8 +16,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" style={{ backgroundColor: '#f9fafb' }} suppressHydrationWarning>
+      <body
+        className={inter.className}
+        style={{ backgroundColor: '#f9fafb', color: '#111827', minHeight: '100vh' }}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

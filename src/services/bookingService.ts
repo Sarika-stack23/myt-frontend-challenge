@@ -1,5 +1,6 @@
 import { Booking, BookingPayload } from '@/types/booking'
 
+// Persistent mock bookings using module-level variable
 const MOCK_BOOKINGS: Booking[] = [
   {
     id: 'b1',
@@ -37,7 +38,7 @@ export const bookingService = {
       totalAmount: 66,
       currency: 'USD',
       createdAt: new Date().toISOString(),
-      scheduledAt: new Date().toISOString(),
+      scheduledAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     }
     MOCK_BOOKINGS.push(newBooking)
     return newBooking

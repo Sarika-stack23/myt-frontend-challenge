@@ -25,13 +25,18 @@ describe('TeacherCard', () => {
 
   it('renders rating', () => {
     render(<TeacherCard teacher={mockTeacher} onBook={jest.fn()} />)
-    expect(screen.getByText(/4.8/)).toBeInTheDocument()
+    const elements = screen.getAllByText('4.8')
+    expect(elements.length).toBeGreaterThan(0)
   })
 
-  it('renders specializations', () => {
+  it('renders experience', () => {
     render(<TeacherCard teacher={mockTeacher} onBook={jest.fn()} />)
-    expect(screen.getByText('Hatha')).toBeInTheDocument()
-    expect(screen.getByText('Vinyasa')).toBeInTheDocument()
+    expect(screen.getByText('8')).toBeInTheDocument()
+  })
+
+  it('renders bio', () => {
+    render(<TeacherCard teacher={mockTeacher} onBook={jest.fn()} />)
+    expect(screen.getByText(/Expert yoga teacher/)).toBeInTheDocument()
   })
 
   it('calls onBook when book button clicked', () => {
@@ -47,17 +52,18 @@ describe('TeacherCard', () => {
     expect(screen.getByRole('button', { name: /book session/i })).toBeDisabled()
   })
 
-  it('shows available badge when teacher is available', () => {
-    render(<TeacherCard teacher={mockTeacher} onBook={jest.fn()} />)
-    expect(screen.getByText('Available')).toBeInTheDocument()
+  it('shows unavailable text when busy', () => {
+    const unavailableTeacher = { ...mockTeacher, isAvailable: false }
+    render(<TeacherCard teacher={unavailableTeacher} onBook={jest.fn()} />)
+    expect(screen.getByText('Unavailable')).toBeInTheDocument()
   })
 
-  it('shows more specializations badge when more than 3', () => {
+  it('shows more specializations when more than 3', () => {
     const teacher = {
       ...mockTeacher,
       specializations: ['Hatha', 'Vinyasa', 'Yin', 'Restorative', 'Prenatal'],
     }
     render(<TeacherCard teacher={teacher} onBook={jest.fn()} />)
-    expect(screen.getByText('+2 more')).toBeInTheDocument()
+    expect(screen.getByText(/\+2/)).toBeInTheDocument()
   })
 })

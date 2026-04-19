@@ -1,11 +1,10 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
 import PageWrapper from '@/components/layout/PageWrapper'
-import Button from '@/components/ui/Button'
 import { ROUTES } from '@/constants/routes'
 
 export const metadata: Metadata = {
-  title: 'Home',
+  title: 'Home — MyYogaTeacher',
   description: 'Find your perfect yoga teacher and book live 1-on-1 sessions.',
 }
 
@@ -40,85 +39,167 @@ export default function HomePage() {
   return (
     <PageWrapper>
       {/* Hero */}
-      <section
-        aria-labelledby="hero-heading"
-        className="text-center py-16 px-4"
-      >
-        <h1
-          id="hero-heading"
-          className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight"
-        >
-          Find Your Perfect
-          <span className="text-green-600"> Yoga Teacher</span>
+      <section style={{
+        background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+        borderRadius: '24px',
+        padding: '80px 40px',
+        textAlign: 'center',
+        marginBottom: '32px',
+      }}>
+        <div style={{
+          display: 'inline-block',
+          background: '#dcfce7',
+          color: '#166534',
+          borderRadius: '999px',
+          padding: '6px 16px',
+          fontSize: '14px',
+          fontWeight: 600,
+          marginBottom: '20px',
+        }}>
+          🌿 200K+ Students Worldwide
+        </div>
+        <h1 style={{
+          fontSize: 'clamp(36px, 6vw, 64px)',
+          fontWeight: 800,
+          color: '#0f172a',
+          lineHeight: 1.15,
+          marginBottom: '20px',
+        }}>
+          Find Your Perfect{' '}
+          <span style={{ color: '#16a34a' }}>Yoga Teacher</span>
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+        <p style={{
+          fontSize: '18px',
+          color: '#475569',
+          maxWidth: '560px',
+          margin: '0 auto 36px',
+          lineHeight: 1.7,
+        }}>
           Book live 1-on-1 yoga sessions with expert teachers.
           Personalized guidance from the comfort of your home.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href={ROUTES.TEACHERS}>
-            <Button size="lg">Browse Teachers</Button>
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link href={ROUTES.TEACHERS} style={{
+            background: '#16a34a',
+            color: '#ffffff',
+            padding: '14px 32px',
+            borderRadius: '12px',
+            fontWeight: 600,
+            fontSize: '16px',
+            textDecoration: 'none',
+            display: 'inline-block',
+            transition: 'background 0.2s',
+          }}>
+            Browse Teachers
           </Link>
-          <Link href={ROUTES.BOOKING}>
-            <Button size="lg" variant="outline">
-              Book a Session
-            </Button>
+          <Link href={ROUTES.BOOKING} style={{
+            background: '#ffffff',
+            color: '#16a34a',
+            border: '2px solid #16a34a',
+            padding: '14px 32px',
+            borderRadius: '12px',
+            fontWeight: 600,
+            fontSize: '16px',
+            textDecoration: 'none',
+            display: 'inline-block',
+          }}>
+            Book a Session
           </Link>
         </div>
       </section>
 
       {/* Stats */}
-      <section
-        aria-label="Platform statistics"
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 my-8"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {STATS.map(({ label, value }) => (
-            <div key={label} className="text-center">
-              <p className="text-3xl font-bold text-green-600">{value}</p>
-              <p className="text-sm text-gray-600 mt-1">{label}</p>
-            </div>
-          ))}
-        </div>
+      <section style={{
+        background: '#ffffff',
+        borderRadius: '20px',
+        padding: '40px',
+        marginBottom: '32px',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '24px',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+        border: '1px solid #f1f5f9',
+      }}>
+        {STATS.map(({ label, value }) => (
+          <div key={label} style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: '32px', fontWeight: 800, color: '#16a34a', marginBottom: '4px' }}>
+              {value}
+            </p>
+            <p style={{ fontSize: '14px', color: '#64748b' }}>{label}</p>
+          </div>
+        ))}
       </section>
 
       {/* Features */}
-      <section
-        aria-labelledby="features-heading"
-        className="py-8"
-      >
-        <h2
-          id="features-heading"
-          className="text-2xl font-bold text-gray-900 text-center mb-8"
-        >
+      <section style={{ marginBottom: '32px' }}>
+        <h2 style={{
+          fontSize: '28px',
+          fontWeight: 700,
+          color: '#0f172a',
+          textAlign: 'center',
+          marginBottom: '32px',
+        }}>
           Why MyYogaTeacher?
         </h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '24px',
+        }}>
           {FEATURES.map(({ title, description, icon }) => (
-            <article
-              key={title}
-              className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="text-3xl mb-3">{icon}</div>
-              <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+            <article key={title} style={{
+              background: '#ffffff',
+              borderRadius: '20px',
+              padding: '32px 28px',
+              border: '1px solid #f1f5f9',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+            }}>
+              <div style={{ fontSize: '40px', marginBottom: '16px' }}>{icon}</div>
+              <h3 style={{
+                fontSize: '18px',
+                fontWeight: 700,
+                color: '#0f172a',
+                marginBottom: '10px',
+              }}>
+                {title}
+              </h3>
+              <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.7 }}>
+                {description}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="bg-green-600 rounded-2xl p-10 text-center my-8">
-        <h2 className="text-2xl font-bold text-white mb-3">
+      <section style={{
+        background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)',
+        borderRadius: '24px',
+        padding: '60px 40px',
+        textAlign: 'center',
+      }}>
+        <h2 style={{
+          fontSize: '28px',
+          fontWeight: 700,
+          color: '#ffffff',
+          marginBottom: '12px',
+        }}>
           Ready to start your yoga journey?
         </h2>
-        <p className="text-green-100 mb-6">
+        <p style={{ color: '#bbf7d0', marginBottom: '28px', fontSize: '16px' }}>
           Join 200K+ students already learning with expert teachers.
         </p>
-        <Link href={ROUTES.TEACHERS}>
-          <Button variant="secondary" size="lg">
-            Find a Teacher
-          </Button>
+        <Link href={ROUTES.TEACHERS} style={{
+          background: '#ffffff',
+          color: '#16a34a',
+          padding: '14px 36px',
+          borderRadius: '12px',
+          fontWeight: 700,
+          fontSize: '16px',
+          textDecoration: 'none',
+          display: 'inline-block',
+        }}>
+          Find a Teacher →
         </Link>
       </section>
     </PageWrapper>

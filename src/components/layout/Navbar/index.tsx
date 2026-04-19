@@ -2,11 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import Avatar from '@/components/ui/Avatar'
-import Button from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes'
-import { clsx } from 'clsx'
 
 const NAV_LINKS = [
   { label: 'Home', href: ROUTES.HOME },
@@ -29,31 +26,49 @@ export const Navbar = () => {
   }
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+    <header style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 40,
+      backgroundColor: '#ffffff',
+      borderBottom: '1px solid #e2e8f0',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+    }}>
       <nav
         aria-label="Main navigation"
-        className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
+        style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '0 24px',
+          height: '64px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
       >
-        <Link
-          href={ROUTES.HOME}
-          className="text-xl font-bold text-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 rounded"
-        >
+        <Link href={ROUTES.HOME} style={{
+          fontSize: '20px',
+          fontWeight: 800,
+          color: '#16a34a',
+          textDecoration: 'none',
+        }}>
           MyYogaTeacher
         </Link>
 
-        <ul className="hidden md:flex items-center gap-8" role="list">
+        <ul style={{ display: 'flex', alignItems: 'center', gap: '32px', listStyle: 'none' }}>
           {NAV_LINKS.map(({ label, href }) => (
             <li key={href}>
               <Link
                 href={href}
                 aria-current={pathname === href ? 'page' : undefined}
-                className={clsx(
-                  'text-sm font-medium transition-colors',
-                  'focus:outline-none focus:ring-2 focus:ring-green-500 rounded px-1',
-                  pathname === href
-                    ? 'text-green-600 border-b-2 border-green-600 pb-0.5'
-                    : 'text-gray-600 hover:text-gray-900'
-                )}
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  color: pathname === href ? '#16a34a' : '#475569',
+                  borderBottom: pathname === href ? '2px solid #16a34a' : 'none',
+                  paddingBottom: pathname === href ? '2px' : '0',
+                }}
               >
                 {label}
               </Link>
@@ -61,26 +76,58 @@ export const Navbar = () => {
           ))}
         </ul>
 
-        <div className="flex items-center gap-3">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {isAuthenticated && user ? (
-            <div className="flex items-center gap-3">
-              <Avatar
-                src={user.avatar}
-                alt={user.name}
-                fallback={user.name}
-                size="sm"
-              />
-              <span className="text-sm text-gray-700 font-medium hidden md:block">
-                {user.name}
+            <>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                background: '#dcfce7',
+                color: '#166534',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 700,
+                fontSize: '13px',
+              }}>
+                {user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+              </div>
+              <span style={{ fontSize: '14px', color: '#374151', fontWeight: 500 }}>
+                {user.name.split(' ')[0]}
               </span>
-              <Button variant="ghost" size="sm" onClick={logout}>
+              <button
+                onClick={logout}
+                style={{
+                  fontSize: '14px',
+                  color: '#64748b',
+                  background: 'none',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '6px 14px',
+                  cursor: 'pointer',
+                  fontWeight: 500,
+                }}
+              >
                 Logout
-              </Button>
-            </div>
+              </button>
+            </>
           ) : (
-            <Button size="sm" onClick={handleSignIn}>
+            <button
+              onClick={handleSignIn}
+              style={{
+                background: '#16a34a',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '10px',
+                padding: '8px 20px',
+                fontSize: '14px',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
               Sign In
-            </Button>
+            </button>
           )}
         </div>
       </nav>

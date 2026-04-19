@@ -3,26 +3,22 @@
 import { ReactNode } from 'react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import { clsx } from 'clsx'
 
 export interface PageWrapperProps {
   children: ReactNode
   className?: string
 }
 
-export const PageWrapper = ({ children, className }: PageWrapperProps) => {
+export const PageWrapper = ({ children }: PageWrapperProps) => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f8fafc' }}>
       <Navbar />
       <main
         id="main-content"
         tabIndex={-1}
-        className={clsx(
-          'flex-1 w-full bg-gray-50',
-          className
-        )}
+        style={{ flex: 1, backgroundColor: '#f8fafc' }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-10">
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '40px 24px' }}>
           {children}
         </div>
       </main>

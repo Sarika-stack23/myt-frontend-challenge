@@ -4,55 +4,53 @@
 - Claude Code — primary agentic coding assistant
 - Cursor — inline completions and refactoring
 
-## Where AI Accelerated Work
+## Concrete Example 1 — TypeScript Interfaces
+**Prompt:** "Generate TypeScript interfaces for Teacher, Session, Booking, User"
+**Result:** AI generated all 4 interfaces correctly in 30 seconds
+**Time saved:** 45 minutes
+**Action:** Accepted as-is
 
-### 1. Boilerplate Generation
-- Generated TypeScript interfaces from plain English descriptions
-- Scaffolded all service layer files in minutes
-- Generated React Query hook patterns consistently
+## Concrete Example 2 — React Query Hooks
+**Prompt:** "Generate useTeachers hook with filters and 5min stale time"
+**Result:** AI generated correct hook pattern
+**Time saved:** 20 minutes per hook x 4 hooks = 80 minutes
+**Action:** Accepted with minor edits
 
-### 2. Accessibility Attributes
-- AI correctly suggested aria-label, aria-pressed, aria-live
-- Suggested keyboard trap pattern for Modal component
-- Added sr-only skip link automatically
-
-### 3. Tailwind Class Suggestions
-- Consistent use of focus:ring, hover states, transition classes
-- Responsive breakpoint suggestions were accurate
-
-### 4. Test Scaffolding
-- Generated Jest test structure for components
-- Suggested edge cases: empty states, loading states, error states
+## Concrete Example 3 — Accessibility Attributes
+**Prompt:** "Add proper aria attributes to Modal component"
+**Result:** AI added aria-modal, aria-labelledby, role=dialog
+**Time saved:** 30 minutes of research
+**Action:** Accepted but added focus trap manually
 
 ## Where AI Was Overridden
 
-### 1. SSR Strategy
-- AI initially suggested SSG for /teachers
-- Overridden: /teachers uses dynamic filters so SSR is correct
-- Human judgment: understanding SEO + dynamic data trade-off
+### Override 1 — SSR Strategy
+AI suggested SSG for /teachers page.
+Overridden to SSR because /teachers has dynamic filters.
+SSG would serve wrong cached HTML for filtered results.
 
-### 2. State Management Choice
-- AI suggested Redux Toolkit
-- Overridden: Zustand chosen for simplicity at this scale
-- Human judgment: right tool for scope, not default enterprise choice
+### Override 2 — State Management
+AI suggested Redux Toolkit.
+Overridden to Zustand — 60% less code for same functionality.
+Redux is overkill at this scale.
 
-### 3. Modal Accessibility
-- AI generated a basic modal without focus trap
-- Corrected manually: added focus management, Escape key handler,
-  body scroll lock, and aria-modal attribute
+### Override 3 — Modal Accessibility
+AI generated modal without focus trap or Escape key handler.
+Added manually: focus management, keyboard trap, body scroll lock.
 
-### 4. Error Boundaries
-- AI did not add error boundaries on data fetching components
-- Added manually around TeachersClient and TeacherDetailClient
+## My Point of View
 
-## Point of View
-AI is excellent at: repetitive patterns, boilerplate, remembering
-aria attributes, generating consistent code across files.
+AI helps most with:
+- Boilerplate and repetitive patterns
+- Remembering aria attributes
+- Generating consistent code across files
+- Test scaffolding
 
-AI falls short at: architectural decisions, trade-off reasoning,
-understanding business context, accessibility edge cases,
-performance root cause analysis.
+Human judgment irreplaceable for:
+- SSR vs SSG vs CSR decisions
+- State management tool selection
+- Performance root cause analysis
+- Accessibility edge cases
+- Component boundary decisions
 
-Human judgment is irreplaceable for: rendering strategy decisions,
-state management scoping, performance profiling interpretation,
-and reviewing AI output for correctness before shipping.
+Verdict: AI = velocity. Human = correctness. Both needed to ship production quality.

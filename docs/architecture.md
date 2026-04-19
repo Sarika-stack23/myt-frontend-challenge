@@ -1,35 +1,73 @@
 # Architecture Decisions
 
-## Framework
-Next.js 14 with App Router chosen for:
-- Built-in SSR/SSG support per route
-- File-based routing reducing boilerplate
-- Server Components reducing client JS bundle
+## Framework: Next.js 16 App Router
 
-## Rendering Strategy Per Route
+Chosen over alternatives because:
+- Built-in per-route rendering strategy (SSR/SSG/CSR)
+- Server Components reduce client JS bundle
+- File-based routing reduces boilerplate
+- Vercel deployment is zero-config
 
-| Route | Strategy | Reason |
+## Rendering Strategy
+
+| Route | Strategy | Justification |
 |---|---|---|
-| `/` | SSG (revalidate 24h) | Static content, SEO critical, rarely changes |
-| `/teachers` | SSR (force-dynamic) | Dynamic filters, SEO needed, data changes often |
-| `/teachers/[id]` | SSR (force-dynamic) | Per-teacher dynamic data, SEO critical |
-| `/booking` | CSR | Auth required, no SEO value |
-| `/dashboard` | CSR | Personal data, auth required, no SEO value |
+| / | SSG revalidate 24h | Static marketing content. SEO critical. Rarely changes. Pre-rendering gives fastest TTFB. |
+| /teachers | SSR force-dynamic | Filter state is dynamic. SSG would serve wrong cached HTML. SEO needed for teacher discovery. |
+| /teachers/[id] | SSR force-dynamic | Per-teacher data changes. SEO critical — teachers need to be discoverable by name. |
+| /booking | CSR | Auth required. No SEO value. Highly interactive. No server rendering needed. |
+| /dashboard | CSR | Personal user data. Auth required. No SEO value. |
 
 ## State Management
-- **Zustand** for client/UI state (booking flow, modal state, auth)
-  - Chosen over Redux: less boilerplate, simpler API, sufficient for this scale
-  - Chosen over Context: avoids unnecessary re-renders
-- **React Query** for server state (teachers, sessions, bookings)
-  - Handles caching, background refetch, loading/error states automatically
-  - Reduces manual fetch logic significantly
-- **Next.js Router** for URL state (filters, pagination)
+
+### Zustand for client/UI state
+Handles: auth state, booking flow, modal open/close
+Why Zustand over Redux: 60% less boilerplate, no Provider wrapper, same performance
+Why Zustand over Context: no unnecessary re-renders on unrelated state changes
+
+### React Query for server state
+Handles: teachers, sessions, bookings
+Why React Query: automatic caching, background refetch, loading/error states built in
+staleTime: 5 minutes — balances freshness vs performance
+
+### Next.js Router for URL state
+Handles: filter params, pagination
+Why URL: filters are shareable and bookmarkable
 
 ## Component Architecture
-- Atomic design: ui → domain → layout
-- Each component owns its TypeScript interface
-- No prop drilling beyond two levels — store or composition used instead
-- Styling: TailwindCSS — utility-first, no style leakage, consistent
+
+Follows atomic design pattern:
+- ui/ — atoms: Button, Avatar, Badge, Modal, Spinner
+- teacher/ — molecules: TeacherCard, TeacherFilter, TeacherProfile
+- booking/ — molecules: SessionSlot, PaymentSummary, BookingModal
+- layout/ — organisms: Navbar, Footer, PageWrapper
+
+Rules enforced:
+- No prop drilling beyond 2 levels
+- Each component exports its TypeScript interface
+- Each component handles its own edge cases
+- No cross-domain imports (booking does not import teacher)
 
 ## Data Flow
-User Action → Zustand Store Update → React Query Fetch → UI Re-render
+
+User action
+→ Zustand store update (UI state)
+→ React Query cache check
+→ Network request if stale (> 5 minutes)
+→ Component re-render with new data
+
+## Testing Strategy
+
+Unit tests: Jest + React Testing Library
+- Tests: Button, Avatar, Badge, Spinner, TeacherCard, PaymentSummary
+- Hooks: useAuth store behavior
+
+E2E tests: Playwright
+- Tests: home page load, teachers page, navigation flows
+- Runs against localhost:3000
+
+CI/CD: GitHub Actions
+- type-check on every push
+- lint on every push
+- build on every push
+- Lighthouse CI on every push to main

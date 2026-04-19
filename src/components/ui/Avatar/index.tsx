@@ -1,4 +1,5 @@
 import { clsx } from 'clsx'
+import Image from 'next/image'
 
 export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl'
 
@@ -45,7 +46,7 @@ export const Avatar = ({
         )}
         style={{ minWidth: px, minHeight: px }}
       >
-        <img
+        <Image
           src={src}
           alt={alt}
           width={px}

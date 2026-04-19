@@ -205,3 +205,6 @@ export const TeacherCard = ({ teacher, onBook }: TeacherCardProps) => {
 }
 
 export default TeacherCard
+// Re-export with memo for performance
+import { memo } from 'react'
+export const MemoizedTeacherCard = memo(TeacherCard)

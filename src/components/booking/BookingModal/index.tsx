@@ -1,21 +1,19 @@
-import { useState } from 'react';
-import Modal from '@/components/ui/Modal';
-import Button from '@/components/ui/Button';
-import SessionSlot from '@/components/booking/SessionSlot';
-import { PaymentSummary } from '@/components/booking/PaymentSummary';
-import { Teacher } from '@/types/teacher';
-import { Session } from '@/types/session';
-import { useSessions } from '@/hooks/useSession';
-import { useCreateBooking } from '@/hooks/useBooking';
-import { useUserStore } from '@/store';
-import { calculateTax, calculateTotal } from '@/utils/formatPrice';
-import Spinner from '@/components/ui/Spinner';
+import { useState } from 'react'
+import Modal from '@/components/ui/Modal'
+import SessionSlot from '@/components/booking/SessionSlot'
+import { PaymentSummary } from '@/components/booking/PaymentSummary'
+import { Teacher } from '@/types/teacher'
+import { Session } from '@/types/session'
+import { useSessions } from '@/hooks/useSession'
+import { useCreateBooking } from '@/hooks/useBooking'
+import { useUserStore } from '@/store'
+import { calculateTax, calculateTotal } from '@/utils/formatPrice'
 
 export interface BookingModalProps {
-  teacher: Teacher;
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess?: () => void;
+  teacher: Teacher
+  isOpen: boolean
+  onClose: () => void
+  onSuccess?: () => void
 }
 
 export const BookingModal = ({
@@ -24,20 +22,16 @@ export const BookingModal = ({
   onClose,
   onSuccess,
 }: BookingModalProps) => {
-  const [selectedSession, setSelectedSession] = useState<Session | null>(null);
-  const { user } = useUserStore();
-  const { data: sessions, isLoading } = useSessions(teacher.id);
-  const { mutate: createBooking, isPending } = useCreateBooking();
+  const [selectedSession, setSelectedSession] = useState<Session | null>(null)
+  const { user } = useUserStore()
+  const { data: sessions, isLoading } = useSessions(teacher.id)
+  const { mutate: createBooking, isPending } = useCreateBooking()
 
-  const tax = selectedSession
-    ? calculateTax(selectedSession.price)
-    : 0;
-  const total = selectedSession
-    ? calculateTotal(selectedSession.price, tax)
-    : 0;
+  const tax = selectedSession ? calculateTax(selectedSession.price) : 0
+  const total = selectedSession ? calculateTotal(selectedSession.price, tax) : 0
 
   const handleConfirm = () => {
-    if (!selectedSession || !user) return;
+    if (!selectedSession || !user) return
     createBooking(
       {
         teacherId: teacher.id,
@@ -46,13 +40,13 @@ export const BookingModal = ({
       },
       {
         onSuccess: () => {
-          setSelectedSession(null);
-          onSuccess?.();
-          onClose();
+          setSelectedSession(null)
+          onSuccess?.()
+          onClose()
         },
       }
-    );
-  };
+    )
+  }
 
   return (
     <Modal
@@ -61,19 +55,26 @@ export const BookingModal = ({
       title={`Book a session with ${teacher.name}`}
       size="lg"
     >
-      <div className="flex flex-col gap-5">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {isLoading ? (
-          <Spinner label="Loading available sessions..." />
+          <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
+            Loading available sessions...
+          </div>
         ) : sessions?.length === 0 ? (
-          <p className="text-center text-gray-500 py-6">
+          <p style={{ textAlign: 'center', color: '#64748b', padding: '40px' }}>
             No available sessions at the moment.
           </p>
         ) : (
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-3">
+            <h4 style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#374151',
+              marginBottom: '12px',
+            }}>
               Select a time slot
             </h4>
-            <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
+            <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
               {sessions?.map((session) => (
                 <SessionSlot
                   key={session.id}
@@ -97,22 +98,44 @@ export const BookingModal = ({
           />
         )}
 
-        <div className="flex gap-3 pt-2">
-          <Button variant="outline" fullWidth onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            fullWidth
-            disabled={!selectedSession}
-            isLoading={isPending}
-            onClick={handleConfirm}
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button
+            onClick={onClose}
+            style={{
+              flex: 1,
+              padding: '12px',
+              borderRadius: '10px',
+              border: '2px solid #e2e8f0',
+              background: '#ffffff',
+              color: '#374151',
+              fontWeight: 600,
+              fontSize: '15px',
+              cursor: 'pointer',
+            }}
           >
-            Confirm Booking
-          </Button>
+            Cancel
+          </button>
+          <button
+            disabled={!selectedSession || isPending}
+            onClick={handleConfirm}
+            style={{
+              flex: 1,
+              padding: '12px',
+              borderRadius: '10px',
+              border: 'none',
+              background: !selectedSession || isPending ? '#d1fae5' : '#16a34a',
+              color: '#ffffff',
+              fontWeight: 600,
+              fontSize: '15px',
+              cursor: !selectedSession || isPending ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {isPending ? 'Booking...' : 'Confirm Booking'}
+          </button>
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}
 
-export default BookingModal;
+export default BookingModal

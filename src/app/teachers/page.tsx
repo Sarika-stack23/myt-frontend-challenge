@@ -1,38 +1,49 @@
-import { Metadata } from 'next';
-import TeachersClient from './TeachersClient';
-import PageWrapper from '@/components/layout/PageWrapper';
-import { teacherService } from '@/services/teacherService';
-import { Teacher } from '@/types/teacher';
+import { Metadata } from 'next'
+import TeachersClient from './TeachersClient'
+import PageWrapper from '@/components/layout/PageWrapper'
+import { teacherService } from '@/services/teacherService'
+import { Teacher } from '@/types/teacher'
 
 export const metadata: Metadata = {
   title: 'Browse Teachers',
-  description:
-    'Find and book sessions with our expert yoga teachers. Filter by specialization, price, and availability.',
-};
+  description: 'Find and book sessions with our expert yoga teachers.',
+}
 
-// SSR — dynamic filters & SEO critical
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'
 
 async function getTeachers(): Promise<Teacher[]> {
   try {
-    return await teacherService.getAll();
+    return await teacherService.getAll()
   } catch {
-    return [];
+    return []
   }
 }
 
 export default async function TeachersPage() {
-  const initialTeachers = await getTeachers();
+  const initialTeachers = await getTeachers()
 
   return (
     <PageWrapper>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Browse Teachers</h1>
-        <p className="text-gray-600 mt-2">
-          Find your perfect yoga teacher from our expert community.
+      <div style={{
+        background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+        borderRadius: '20px',
+        padding: '32px',
+        marginBottom: '32px',
+        border: '1px solid #bbf7d0',
+      }}>
+        <h1 style={{
+          fontSize: '32px',
+          fontWeight: 800,
+          color: '#0f172a',
+          marginBottom: '8px',
+        }}>
+          Browse Teachers 🧘
+        </h1>
+        <p style={{ color: '#475569', fontSize: '16px' }}>
+          Find your perfect yoga teacher from our expert community of 500+ instructors.
         </p>
       </div>
       <TeachersClient initialTeachers={initialTeachers} />
     </PageWrapper>
-  );
+  )
 }

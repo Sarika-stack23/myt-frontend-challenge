@@ -1,64 +1,62 @@
-import { PaymentSummary as PaymentSummaryType } from '@/types/booking';
-import { formatPrice } from '@/utils/formatPrice';
-import { clsx } from 'clsx';
+import { PaymentSummary as PaymentSummaryType } from '@/types/booking'
+import { formatPrice } from '@/utils/formatPrice'
 
 export interface PaymentSummaryProps {
-  summary: PaymentSummaryType;
-  className?: string;
+  summary: PaymentSummaryType
+  className?: string
 }
 
-interface LineItemProps {
-  label: string;
-  amount: number;
-  currency: string;
-  bold?: boolean;
-}
-
-const LineItem = ({ label, amount, currency, bold }: LineItemProps) => (
-  <div
-    className={clsx(
-      'flex items-center justify-between py-2',
-      bold && 'font-semibold text-gray-900'
-    )}
-  >
-    <span className={bold ? 'text-gray-900' : 'text-gray-600'}>{label}</span>
-    <span>{formatPrice(amount, currency)}</span>
-  </div>
-);
-
-export const PaymentSummary = ({
-  summary,
-  className,
-}: PaymentSummaryProps) => {
+export const PaymentSummary = ({ summary, className }: PaymentSummaryProps) => {
   return (
     <section
       aria-label="Payment summary"
-      className={clsx(
-        'bg-gray-50 rounded-xl p-4 border border-gray-200',
-        className
-      )}
+      className={className}
+      style={{
+        background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+        borderRadius: '14px',
+        padding: '18px',
+        border: '1px solid #bbf7d0',
+      }}
     >
-      <h3 className="font-semibold text-gray-900 mb-3">Payment Summary</h3>
-      <div className="divide-y divide-gray-200">
-        <LineItem
-          label="Subtotal"
-          amount={summary.subtotal}
-          currency={summary.currency}
-        />
-        <LineItem
-          label="Tax (10%)"
-          amount={summary.tax}
-          currency={summary.currency}
-        />
-        <LineItem
-          label="Total"
-          amount={summary.total}
-          currency={summary.currency}
-          bold
-        />
+      <h3 style={{
+        fontSize: '14px',
+        fontWeight: 700,
+        color: '#166534',
+        marginBottom: '14px',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em',
+      }}>
+        Payment Summary
+      </h3>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: '14px', color: '#475569' }}>Subtotal</span>
+          <span style={{ fontSize: '14px', color: '#0f172a', fontWeight: 500 }}>
+            {formatPrice(summary.subtotal, summary.currency)}
+          </span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: '14px', color: '#475569' }}>Tax (10%)</span>
+          <span style={{ fontSize: '14px', color: '#0f172a', fontWeight: 500 }}>
+            {formatPrice(summary.tax, summary.currency)}
+          </span>
+        </div>
+        <div style={{
+          height: '1px',
+          background: '#bbf7d0',
+          margin: '4px 0',
+        }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a' }}>
+            Total
+          </span>
+          <span style={{ fontSize: '18px', fontWeight: 800, color: '#16a34a' }}>
+            {formatPrice(summary.total, summary.currency)}
+          </span>
+        </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default PaymentSummary;
+export default PaymentSummary

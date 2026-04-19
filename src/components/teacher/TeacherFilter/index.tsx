@@ -1,52 +1,89 @@
-import { TeacherFilters } from '@/types/teacher';
-import Button from '@/components/ui/Button';
-import { clsx } from 'clsx';
+import { TeacherFilters } from '@/types/teacher'
 
 export interface TeacherFilterProps {
-  filters: TeacherFilters;
-  onChange: (filters: TeacherFilters) => void;
-  className?: string;
+  filters: TeacherFilters
+  onChange: (filters: TeacherFilters) => void
+  className?: string
 }
 
 const SPECIALIZATIONS = [
   'Hatha', 'Vinyasa', 'Ashtanga',
   'Yin', 'Restorative', 'Prenatal',
-];
+]
 
-export const TeacherFilter = ({
-  filters,
-  onChange,
-  className,
-}: TeacherFilterProps) => {
+export const TeacherFilter = ({ filters, onChange }: TeacherFilterProps) => {
   return (
     <aside
       aria-label="Filter teachers"
-      className={clsx('bg-white rounded-2xl border border-gray-100 p-5', className)}
+      style={{
+        background: '#ffffff',
+        borderRadius: '20px',
+        border: '1px solid #f1f5f9',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        padding: '24px',
+        position: 'sticky',
+        top: '80px',
+      }}
     >
-      <h2 className="font-semibold text-gray-900 mb-4">Filters</h2>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '20px',
+      }}>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a' }}>
+          Filters
+        </h2>
+        <button
+          onClick={() => onChange({})}
+          style={{
+            fontSize: '12px',
+            color: '#16a34a',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            fontWeight: 600,
+            padding: '4px 8px',
+            borderRadius: '6px',
+          }}
+        >
+          Reset all
+        </button>
+      </div>
 
-      <div className="mb-5">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      {/* Specialization */}
+      <div style={{ marginBottom: '24px' }}>
+        <p style={{
+          fontSize: '13px',
+          fontWeight: 600,
+          color: '#374151',
+          marginBottom: '10px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em',
+        }}>
           Specialization
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {SPECIALIZATIONS.map((spec) => (
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          {SPECIALIZATIONS.map(spec => (
             <button
               key={spec}
-              onClick={() =>
-                onChange({
-                  ...filters,
-                  specialization:
-                    filters.specialization === spec ? undefined : spec,
-                })
-              }
+              onClick={() => onChange({
+                ...filters,
+                specialization: filters.specialization === spec ? undefined : spec,
+              })}
               aria-pressed={filters.specialization === spec}
-              className={clsx(
-                'px-3 py-1 rounded-full text-sm border transition-colors',
-                filters.specialization === spec
-                  ? 'bg-green-600 text-white border-green-600'
-                  : 'border-gray-300 text-gray-600 hover:border-green-400'
-              )}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '999px',
+                fontSize: '13px',
+                fontWeight: 500,
+                border: '1.5px solid',
+                borderColor: filters.specialization === spec ? '#16a34a' : '#e2e8f0',
+                background: filters.specialization === spec ? '#16a34a' : '#ffffff',
+                color: filters.specialization === spec ? '#ffffff' : '#475569',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
             >
               {spec}
             </button>
@@ -54,13 +91,30 @@ export const TeacherFilter = ({
         </div>
       </div>
 
-      <div className="mb-5">
-        <label
-          htmlFor="max-price"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Max Price: ${filters.maxPrice ?? 100}
-        </label>
+      {/* Price */}
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginBottom: '10px',
+        }}>
+          <p style={{
+            fontSize: '13px',
+            fontWeight: 600,
+            color: '#374151',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+          }}>
+            Max Price
+          </p>
+          <span style={{
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#16a34a',
+          }}>
+            ${filters.maxPrice ?? 100}
+          </span>
+        </div>
         <input
           id="max-price"
           type="range"
@@ -68,40 +122,70 @@ export const TeacherFilter = ({
           max={200}
           step={10}
           value={filters.maxPrice ?? 100}
-          onChange={(e) =>
-            onChange({ ...filters, maxPrice: Number(e.target.value) })
-          }
-          className="w-full accent-green-600"
-          aria-valuemin={10}
-          aria-valuemax={200}
-          aria-valuenow={filters.maxPrice ?? 100}
+          onChange={e => onChange({ ...filters, maxPrice: Number(e.target.value) })}
+          style={{ width: '100%', accentColor: '#16a34a' }}
+          aria-label="Maximum price per session"
         />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontSize: '11px',
+          color: '#94a3b8',
+          marginTop: '4px',
+        }}>
+          <span>$10</span>
+          <span>$200</span>
+        </div>
       </div>
 
-      <div className="mb-5">
-        <label className="flex items-center gap-2 cursor-pointer">
+      {/* Availability */}
+      <div style={{
+        padding: '14px',
+        background: '#f8fafc',
+        borderRadius: '12px',
+        marginBottom: '20px',
+      }}>
+        <label style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          cursor: 'pointer',
+        }}>
           <input
             type="checkbox"
             checked={filters.availability ?? false}
-            onChange={(e) =>
-              onChange({ ...filters, availability: e.target.checked })
-            }
-            className="accent-green-600"
+            onChange={e => onChange({ ...filters, availability: e.target.checked })}
+            style={{ accentColor: '#16a34a', width: '16px', height: '16px' }}
           />
-          <span className="text-sm text-gray-700">Available only</span>
+          <div>
+            <p style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a' }}>
+              Available only
+            </p>
+            <p style={{ fontSize: '12px', color: '#64748b' }}>
+              Show teachers ready to book
+            </p>
+          </div>
         </label>
       </div>
 
-      <Button
-        variant="outline"
-        size="sm"
-        fullWidth
+      <button
         onClick={() => onChange({})}
+        style={{
+          width: '100%',
+          padding: '10px',
+          borderRadius: '10px',
+          border: '1.5px solid #e2e8f0',
+          background: '#ffffff',
+          color: '#64748b',
+          fontSize: '13px',
+          fontWeight: 600,
+          cursor: 'pointer',
+        }}
       >
-        Clear Filters
-      </Button>
+        Clear All Filters
+      </button>
     </aside>
-  );
-};
+  )
+}
 
-export default TeacherFilter;
+export default TeacherFilter
